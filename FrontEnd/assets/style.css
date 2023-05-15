@@ -30,7 +30,14 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #FFFEF8;
 }
+
+a{
+	text-decoration: none;
+	color: black;
+}
+
 ol, ul {
 	list-style: none;
 }
@@ -84,15 +91,26 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
+nav{
+	display: flex;
+	align-items: center;	
+}
+
+
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
 }
+
 nav li {
 	padding: 0 10px;
-	font-size: 1.2em;
+	font-size: 1rem;
+}
+
+li img{
+	width: 1.2rem;
 }
 
 li:hover {
@@ -211,9 +229,8 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
-footer nav ul {
+footer {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
-
