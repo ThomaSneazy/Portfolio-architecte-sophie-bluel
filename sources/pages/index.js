@@ -23,6 +23,8 @@ async function getWorks() {
   }
 }
 
+
+
 //Afficher tous les works
 const btnTous = document.querySelector('.btn-all');
 btnTous.addEventListener('click', function () {
@@ -131,5 +133,46 @@ btnHotel.addEventListener('click', async () => {
   }
 });
 
+function editImg() {
+  const userToken = localStorage.getItem('userToken');
+  const userId = localStorage.getItem('userId');
+  const buttonContainer = document.getElementById('edit-img');
+
+  if (userToken && userId) {
+    console.log('Utilisateur connecté');
+
+    const modifyLink = document.createElement('a');
+    const modifyIcon = document.createElement('i');
+    modifyIcon.classList.add('fa-sharp', 'fa-regular', 'fa-pen-to-square');
+    modifyLink.textContent = 'Modifier';
+    modifyLink.href = '#'; // Mettre ici le lien ou l'action désirée pour modifier
+    modifyLink.appendChild(modifyIcon);
+    buttonContainer.appendChild(modifyLink);
+  } else {
+    console.log('Aucun utilisateur connecté');
+  }
+}
+function editGallery() {
+  const userToken = localStorage.getItem('userToken');
+  const userId = localStorage.getItem('userId');
+  const buttonContainer = document.getElementById('edit-gallery');
+
+  if (userToken && userId) {
+    console.log('Utilisateur connecté');
+
+    const modifyIcon = document.createElement('i');
+    const modifyLink = document.createElement('a');
+    modifyIcon.classList.add('fa-sharp', 'fa-regular', 'fa-pen-to-square');
+    modifyLink.textContent = 'Modifier';
+    modifyLink.href = '#'; // Mettre ici le lien ou l'action désirée pour modifier
+    modifyLink.appendChild(modifyIcon);
+    buttonContainer.appendChild(modifyLink);
+  } else {
+    console.log('Aucun utilisateur connecté');
+  }
+}
+
 // Appel de la fonction pour récupérer et afficher les travaux
 getWorks();
+editGallery();
+editImg();
