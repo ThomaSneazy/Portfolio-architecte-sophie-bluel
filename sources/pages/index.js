@@ -1,10 +1,12 @@
+// Fonction pour récupérer et afficher les travaux
 async function getWorks() {
   try {
-    const response = await fetch('http://localhost:5678/api/works'); // Attend la résolution de la promesse
-    const data = await response.json(); // Attend la résolution de la promesse
+    const response = await fetch('http://localhost:5678/api/works');
+    const data = await response.json();
 
     const gallery = document.querySelector('.gallery');
-    // console.log(data);
+    gallery.innerHTML = ''; // Efface le contenu actuel de la galerie
+
     data.forEach(work => {
       const figure = document.createElement('figure');
       const image = document.createElement('img');
@@ -23,17 +25,15 @@ async function getWorks() {
   }
 }
 
-
-
-//Afficher tous les works
+// Fonction pour afficher tous les works
 const btnTous = document.querySelector('.btn-all');
 btnTous.addEventListener('click', function () {
   const gallery = document.querySelector('.gallery');
-    gallery.innerHTML = ''; // Efface le contenu actuel de la galerie
+  gallery.innerHTML = ''; // Efface le contenu actuel de la galerie
   getWorks();
 });
 
-//Afficher tous les objets
+// Fonction pour afficher les objets
 const btnObjet = document.querySelector('.btn-object');
 btnObjet.addEventListener('click', async () => {
   try {
@@ -46,7 +46,6 @@ btnObjet.addEventListener('click', async () => {
     // Filtrer les travaux ayant la catégorie "Objets"
     const filteredWorks = data.filter(work => work.category.name === 'Objets');
 
-    // Parcourir les travaux filtrés et créer les éléments HTML correspondants
     filteredWorks.forEach(work => {
       const figure = document.createElement('figure');
       const image = document.createElement('img');
@@ -65,18 +64,17 @@ btnObjet.addEventListener('click', async () => {
   }
 });
 
-//Afficher tous les appartements
+// Fonction pour afficher les appartements
 const btnFlat = document.querySelector('.btn-flat');
 btnFlat.addEventListener('click', async () => {
   try {
-    // Effectue une requête à l'API pour récupérer les travaux
     const response = await fetch('http://localhost:5678/api/works');
-    const data = await response.json(); // Convertit la réponse en JSON
+    const data = await response.json();
 
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = ''; // Efface le contenu actuel de la galerie
 
-    // Filtre les travaux pour ne garder que ceux ayant la catégorie "Objets"
+    // Filtrer les travaux ayant la catégorie "Appartements"
     const filteredWorks = data.filter(work => work.category.name === 'Appartements');
 
     filteredWorks.forEach(work => {
@@ -92,28 +90,23 @@ btnFlat.addEventListener('click', async () => {
       figure.appendChild(figcaption);
       gallery.appendChild(figure);
     });
-
-    // Affiche les travaux filtrés
-    // console.log(filteredWorks);
   } catch (error) {
     console.error('Une erreur s\'est produite lors de la récupération des works:', error);
   }
 });
 
-//Afficher tous les appartements
+// Fonction pour afficher les hôtels et restaurants
 const btnHotel = document.querySelector('.btn-hotel');
 btnHotel.addEventListener('click', async () => {
   try {
-    // Effectue une requête à l'API pour récupérer les travaux
     const response = await fetch('http://localhost:5678/api/works');
-    const data = await response.json(); // Convertit la réponse en JSON
+    const data = await response.json();
 
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = ''; // Efface le contenu actuel de la galerie
 
-    // Filtre les travaux pour ne garder que ceux ayant la catégorie "Objets"
+    // Filtrer les travaux ayant la catégorie "Hotels & restaurants"
     const filteredWorks = data.filter(work => work.category.name === 'Hotels & restaurants');
-
 
     filteredWorks.forEach(work => {
       const figure = document.createElement('figure');
@@ -133,32 +126,17 @@ btnHotel.addEventListener('click', async () => {
   }
 });
 
-function editImg() {
-  const userToken = localStorage.getItem('userToken');
-  const userId = localStorage.getItem('userId');
-  const buttonContainer = document.getElementById('edit-img');
-
-  if (userToken && userId) {
-    console.log('Utilisateur connecté');
-
-    const modifyLink = document.createElement('a');
-    const modifyIcon = document.createElement('i');
-    modifyIcon.classList.add('fa-sharp', 'fa-regular', 'fa-pen-to-square');
-    modifyLink.textContent = 'Modifier';
-    modifyLink.href = '#'; // Mettre ici le lien ou l'action désirée pour modifier
-    modifyLink.appendChild(modifyIcon);
-    buttonContainer.appendChild(modifyLink);
-  } else {
-    console.log('Aucun utilisateur connecté');
-  }
-}
+// Fonction pour gérer la modification de la galerie
 function editGallery() {
   const userToken = localStorage.getItem('userToken');
   const userId = localStorage.getItem('userId');
   const buttonContainer = document.getElementById('edit-gallery');
+  const bannerContainer = document.querySelector('.banner')
 
   if (userToken && userId) {
     console.log('Utilisateur connecté');
+
+    bannerContainer.classList.add('banner-visible')
 
     const modifyIcon = document.createElement('i');
     const modifyLink = document.createElement('a');
@@ -170,9 +148,20 @@ function editGallery() {
   } else {
     console.log('Aucun utilisateur connecté');
   }
+
+  // Écouteur d'événements pour afficher la fenêtre modale
+  const modifyLink = buttonContainer.querySelector('a');
+  modifyLink.addEventListener('click', openModal);
+
+  function openModal(event) {
+    event.preventDefault();
+    const modalOverlay = document.querySelector('.modal-overlay');
+    modalOverlay.classList.add('visible');
+  }
+
+
 }
 
-// Appel de la fonction pour récupérer et afficher les travaux
+// Appel des fonctions pour récupérer et afficher les travaux, et gérer la modification de la galerie
 getWorks();
 editGallery();
-editImg();
